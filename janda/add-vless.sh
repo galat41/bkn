@@ -31,16 +31,16 @@ clear
 			echo "A client with the specified name was already created, please choose another name."
 			echo ""
 			read -n 1 -s -r -p "Press any key to back on menu"
-			v2ray-menu
+			menu-vless
 		fi
 	done
 
 uuid=$(cat /proc/sys/kernel/random/uuid)
 read -p "Expired (days): " masaaktif
 exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
-sed -i '/#vless$/a\#& '"$user $exp"'\
+sed -i '/#vless$/a\#& '"$user $exp $uuid"'\
 },{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
-sed -i '/#vlessgrpc$/a\#vlg '"$user $exp"'\
+sed -i '/#vlessgrpc$/a\#vlg '"$user $exp $uuid"'\
 },{"id": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
 vlesslink1="vless://${uuid}@${domain}:443?path=/vless&security=tls&encryption=none&type=ws#${user}"
 vlesslink2="vless://${uuid}@${domain}:80?path=/vless&encryption=none&type=ws#${user}"
