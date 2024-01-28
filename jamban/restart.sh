@@ -6,7 +6,6 @@ clear
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\E[0;100;33m         • RESTART MENU •          \E[0m"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e ""
 echo -e " [\e[36m•1\e[0m] Restart All Services"
 echo -e " [\e[36m•2\e[0m] Restart OpenSSH"
 echo -e " [\e[36m•3\e[0m] Restart Dropbear"
@@ -56,7 +55,6 @@ case $Restart in
                 sleep 0.5
                 echo -e "[ \033[32mok\033[0m ] Restarting websocket Service (via systemctl) "
                 sleep 0.5
-                systemctl restart sshws.service
                 systemctl restart ws-dropbear.service
                 systemctl restart ws-stunnel.service
                 sleep 0.5
@@ -220,7 +218,6 @@ case $Restart in
                 sleep 1
                 echo -e "[ \033[32mok\033[0m ] Restarting websocket Service (via systemctl) "
                 sleep 0.5
-                systemctl restart sshws.service
                 systemctl restart ws-dropbear.service
                 systemctl restart ws-stunnel.service
                 sleep 0.5
