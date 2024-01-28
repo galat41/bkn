@@ -15,23 +15,27 @@ CYAN='\033[0;36m'
 LIGHT='\033[0;37m'
 # ==========================================
 # Getting
-dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-#########################
-MYIP=$(curl -sS ipv4.icanhazip.com)
 clear
 NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/xray/config.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
+		echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+                echo -e "$BLUE ${NC}${BLUE}     ⇱ Delete  Account ⇲       ${NC} $BLUE $NC"
+      		echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 		echo ""
 		echo "You have no existing clients!"
-		exit 1
+		echo ""
+		echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+		read -n 1 -s -r -p "Press any key to back on menu"
+        menu-vmess
 	fi
 
 	clear
-	echo ""
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "$BLUE ${NC}${BLUE}     ⇱ Delete  Account ⇲       ${NC} $BLUE $NC"
+      	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 	echo " Select the existing client you want to remove"
 	echo " Press CTRL+C to return"
-	echo " ==============================="
+	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 	echo "     No  Expired   User"
 	grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
@@ -45,14 +49,14 @@ user=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLI
 exp=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
 sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
 sed -i "/^#vmg $user $exp/,/^},{/d" /etc/xray/config.json
-rm -f /etc/xray/vmess-$user-tls.json /etc/xray/vmess-$user-nontls.json
-systemctl restart xray.service
 clear
-echo ""
-echo "==============================="
-echo "  Xray/Vmess Account Deleted  "
-echo "==============================="
-echo "Username  : $user"
-echo "Expired   : $exp"
-echo "==============================="
-echo "Script By JULAK BANTUR"
+systemctl restart xray > /dev/null 2>&1
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo " Vmess Account Deleted Successfully"
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo " Client Name : $user"
+    echo " Expired On  : $exp"
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    read -n 1 -s -r -p "Press any key to back on menu"
+    menu-vmess
