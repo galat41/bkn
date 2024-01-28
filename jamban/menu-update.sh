@@ -57,18 +57,21 @@ rm -rf renew-ws
 rm -rf del-ws
 rm -rf cek-ws
 rm -rf mem-ws
+rm -rf add-vms
 rm -rf add-vless
 rm -rf trialvless
 rm -rf renew-vless
 rm -rf del-vless
 rm -rf cek-vless
 rm -rf mem-vless
+rm -rf add-vls
 rm -rf add-tr
 rm -rf trialtrojan
 rm -rf del-tr
 rm -rf renew-tr
 rm -rf cek-tr
 rm -rf mem-tr
+rm -rf add-tru
 
 cd /usr/bin
 wget -O menu-update "https://raw.githubusercontent.com/galat41/bkn/main/jamban/menu-update.sh"
@@ -111,18 +114,21 @@ wget -O renew-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew
 wget -O del-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-ws.sh"
 wget -O cek-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-ws.sh"
 wget -O mem-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-ws.sh"
+wget -O add-vms "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vms.sh"
 wget -O add-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vless.sh"
 wget -O trialvless "https://raw.githubusercontent.com/galat41/bkn/main/janda/trialvless.sh"
 wget -O renew-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-vless.sh"
 wget -O del-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-vless.sh"
 wget -O cek-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-vless.sh"
 wget -O mem-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-vless.sh"
+wget -O add-vls "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vls.sh"
 wget -O add-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-tr.sh"
 wget -O trialtrojan "https://raw.githubusercontent.com/galat41/bkn/main/janda/trialtrojan.sh"
 wget -O del-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-tr.sh"
 wget -O renew-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-tr.sh"
 wget -O cek-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-tr.sh"
 wget -O mem-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-tr.sh"
+wget -O add-tru "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-tru.sh"
 
 chmod +x menu-update
 chmod +x menu
@@ -164,18 +170,21 @@ chmod +x renew-ws
 chmod +x del-ws
 chmod +x cek-ws
 chmod +x mem-ws
+chmod +x add-vms
 chmod +x add-vless
 chmod +x trialvless
 chmod +x renew-vless
 chmod +x del-vless
 chmod +x cek-vless
 chmod +x mem-vless
+chmod +x add-vls
 chmod +x add-tr
 chmod +x trialtrojan
 chmod +x del-tr
 chmod +x renew-tr
 chmod +x cek-tr
 chmod +x mem-tr
+chmod +x add-tru
 
 
 clear
