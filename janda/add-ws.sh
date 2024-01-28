@@ -88,7 +88,7 @@ grpc=`cat<<EOF
       "path": "vmess-grpc",
       "type": "none",
       "host": "${domain}",
-      "tls": "tls"
+      "tls": "tls",
       "sni": "${domain}"
 }
 EOF`
