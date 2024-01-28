@@ -56,11 +56,13 @@ rm -rf trialvmess
 rm -rf renew-ws
 rm -rf del-ws
 rm -rf cek-ws
+rm -rf mem-ws
 rm -rf add-vless
 rm -rf trialvless
 rm -rf renew-vless
 rm -rf del-vless
 rm -rf cek-vless
+rm -rf mem-vless
 rm -rf add-tr
 rm -rf trialtrojan
 rm -rf del-tr
@@ -108,11 +110,13 @@ wget -O trialvmess "https://raw.githubusercontent.com/galat41/bkn/main/janda/tri
 wget -O renew-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-ws.sh"
 wget -O del-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-ws.sh"
 wget -O cek-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-ws.sh"
+wget -O mem-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-ws.sh"
 wget -O add-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vless.sh"
 wget -O trialvless "https://raw.githubusercontent.com/galat41/bkn/main/janda/trialvless.sh"
 wget -O renew-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-vless.sh"
 wget -O del-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-vless.sh"
 wget -O cek-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-vless.sh"
+wget -O mem-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-vless.sh"
 wget -O add-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-tr.sh"
 wget -O trialtrojan "https://raw.githubusercontent.com/galat41/bkn/main/janda/trialtrojan.sh"
 wget -O del-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-tr.sh"
@@ -159,11 +163,13 @@ chmod +x trialvmess
 chmod +x renew-ws
 chmod +x del-ws
 chmod +x cek-ws
+chmod +x mem-ws
 chmod +x add-vless
 chmod +x trialvless
 chmod +x renew-vless
 chmod +x del-vless
 chmod +x cek-vless
+chmod +x mem-vless
 chmod +x add-tr
 chmod +x trialtrojan
 chmod +x del-tr
