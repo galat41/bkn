@@ -598,10 +598,6 @@ systemctl restart xray
 systemctl restart nginx
 systemctl enable runn
 systemctl restart runn
-#systemctl stop trojan-go
-#systemctl start trojan-go
-#systemctl enable trojan-go
-#systemctl restart trojan-go
 
 cd /usr/bin/
 # vmess
@@ -611,6 +607,7 @@ wget -O renew-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew
 wget -O del-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-ws.sh" && chmod +x del-ws
 wget -O cek-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-ws.sh" && chmod +x cek-ws
 wget -O mem-ws "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-ws.sh" && chmod +x mem-ws
+wget -O add-vms "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vms.sh" && chmod +x add-vms
 
 # vless
 wget -O add-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vless.sh" && chmod +x add-vless
@@ -619,6 +616,7 @@ wget -O renew-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/re
 wget -O del-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-vless.sh" && chmod +x del-vless
 wget -O cek-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-vless.sh" && chmod +x cek-vless
 wget -O mem-vless "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-vless.sh" && chmod +x mem-vless
+wget -O add-vls "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-vls.sh" && chmod +x add-vls
 
 # trojan
 wget -O add-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-tr.sh" && chmod +x add-tr
@@ -627,6 +625,7 @@ wget -O del-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-tr.
 wget -O renew-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-tr.sh" && chmod +x renew-tr
 wget -O cek-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-tr.sh" && chmod +x cek-tr
 wget -O mem-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-tr.sh" && chmod +x mem-tr
+wget -O add-tru "https://raw.githubusercontent.com/galat41/bkn/main/janda/add-tru.sh" && chmod +x add-tru
 
 sleep 1
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
