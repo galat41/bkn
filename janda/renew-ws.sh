@@ -15,25 +15,28 @@ CYAN='\033[0;36m'
 LIGHT='\033[0;37m'
 # ==========================================
 # Getting
-dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-#########################
-
-MYIP=$(curl -sS ipv4.icanhazip.com)
 clear
+domain=$(cat /etc/xray/domain)
 NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/xray/config.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		clear
-		echo ""
-		echo "You have no existing clients!"
-		exit 1
-	fi
-
-	clear
+ 	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "$BLUE ${NC}${BLUE}        ⇱ Renew Account ⇲        ${NC} $BLUE $NC"
+  	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 	echo ""
+	echo "You have no existing clients!"
+	echo ""
+	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo ""
+        read -n 1 -s -r -p "Press any key to back on menu"
+        menu-vmess
+	fi
+ 	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "$BLUE ${NC}${BLUE}        ⇱ Renew Account ⇲        ${NC} $BLUE $NC"
+  	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 	echo "Select the existing client you want to renew"
 	echo " Press CTRL+C to return"
-	echo -e "==============================="
+	echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 	grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
@@ -42,7 +45,7 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/xray/config.json")
 			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (Days): " masaaktif
+read -p "Expired (days): " masaaktif
 user=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
 exp=$(grep -E "^### " "/etc/xray/config.json" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
 now=$(date +%Y-%m-%d)
@@ -53,14 +56,16 @@ exp3=$(($exp2 + $masaaktif))
 exp4=`date -d "$exp3 days" +"%Y-%m-%d"`
 sed -i "s/### $user $exp/### $user $exp4/g" /etc/xray/config.json
 sed -i "s/#vmg $user $exp/#vmg $user $exp4/g" /etc/xray/config.json
-systemctl restart xray.service
-service cron restart
 clear
-echo ""
-echo "==============================="
-echo "  Xray/Vmess Account Renewed  "
-echo "==============================="
-echo "Username  : $user"
-echo "Expired   : $exp4"
-echo "==============================="
-echo "Script By JULAK BANTUR"
+systemctl restart xray > /dev/null 2>&1
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo " VMESS Account Was Successfully Renewed"
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo " Client Name : $user"
+    echo " Expired On  : $exp4"
+    echo ""
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    read -n 1 -s -r -p "Press any key to back on menu"
+    menu-vmess
