@@ -8,9 +8,9 @@ MYIP=$(wget -qO- ipinfo.io/ip);
 echo "Checking VPS"
 
 clear
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\E[0;100;33m        • SSH & UDP MENU •         \E[0m"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[34m        • SSH & UDP MENU •         \E[0m"
+echo -e "\e[31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e " [\e[36m01\e[0m] Create SSH Account "
 echo -e " [\e[36m02\e[0m] Renew SSH Account "
 echo -e " [\e[36m03\e[0m] Delete SSH Account "
@@ -21,7 +21,7 @@ echo -e " [\e[36m07\e[0m] Set up Autokill SSH "
 echo -e " [\e[36m08\e[0m] Trial SSH Account "
 echo -e " [\e[36m00\e[0m] Back To Menu "
 echo -e " [\e[36mxx\e[0m] Exit "
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e ""
 read -p " Select menu :  "  opt
 echo -e ""
