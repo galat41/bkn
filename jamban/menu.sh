@@ -58,6 +58,18 @@ tyest="$(vnstat -i eth0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}
 dmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $3" "substr ($4, 1, 1)}')"
 umon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $6" "substr ($7, 1, 1)}')"
 tmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}')"
+# INFO CREATE ACCOUNT
+# Ssh account
+ssh1="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+# Vless account
+vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
+let vla=$vlx
+# Vmess account
+vmc=$(grep -c -E "^### " "/etc/xray/config.json")
+let vma=$vmc
+# Trojan account
+trx=$(grep -c -E "^#! " "/etc/xray/config.json")
+let trb=$trx
 # user
 Exp2=$"Lifetime"
 Name=$"Julak-Bantur"
@@ -80,25 +92,28 @@ tram=$( free -m | awk 'NR==2 {print $2}' )
 uram=$( free -m | awk 'NR==2 {print $3}' )
 fram=$( free -m | awk 'NR==2 {print $4}' )
 clear 
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\e[1;34m                      VPS INFO                    \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;32m OS            \e[0m: "`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`	
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[1;32m DATE & TIME   \e[0m: $DATE2"
 echo -e "\e[1;32m Uptime        \e[0m: $uptime"
+echo -e "\e[1;32m OS            \e[0m: "`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`	
+echo -e "\e[1;32m Ram Info      \e[0m: $uram/$tram"
 echo -e "\e[1;32m Public IP     \e[0m: $IPVPS"
 echo -e "\e[1;32m Country       \e[0m: $LOC"
 echo -e "\e[1;32m DOMAIN        \e[0m: $domain"	
-echo -e "\e[1;32m DATE & TIME   \e[0m: $DATE2"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;34m                      RAM INFO                    \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[1;34m                     USER INFO                    \e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e ""
-echo -e "\e[1;32m RAM USED   \e[0m: $uram MB"	
-echo -e "\e[1;32m RAM TOTAL  \e[0m: $tram MB"
+echo -e "\e[1;32m User Ssh    \e[0m: $ssh1 Account"	
+echo -e "\e[1;32m User Vmess  \e[0m: $vmc Account"	
+echo -e "\e[1;32m User Vless  \e[0m: $vlx Account"	
+echo -e "\e[1;32m User Trojan \e[0m: $trx Account"	
 echo -e ""
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\e[1;34m                       MENU                       \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e   ""
 echo -e "\e[1;36m 1 \e[0m: Menu SSH"
 echo -e "\e[1;36m 2 \e[0m: Menu Vmess"
@@ -111,10 +126,10 @@ echo -e "\e[1;36m 8 \e[0m: Update Autoscript"
 echo -e "\e[1;36m 9 \e[0m: Reboot VPS"
 echo -e "\e[1;36m x \e[0m: Exit Script"
 echo -e   ""
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\e[1;32m Client Name \e[0m: $Name"
 echo -e "\e[1;32m Expired     \e[0m: $Exp2"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
+echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e   ""
 echo -e "\e[1;36m --------------------wa.me/+6281250851741-------------------\e[0m"
 echo -e   ""
