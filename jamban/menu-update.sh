@@ -66,6 +66,7 @@ rm -rf trialtrojan
 rm -rf del-tr
 rm -rf renew-tr
 rm -rf cek-tr
+rm -rf mem-tr
 
 cd /usr/bin
 wget -O menu-update "https://raw.githubusercontent.com/galat41/bkn/main/jamban/menu-update.sh"
@@ -117,6 +118,7 @@ wget -O trialtrojan "https://raw.githubusercontent.com/galat41/bkn/main/janda/tr
 wget -O del-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/del-tr.sh"
 wget -O renew-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/renew-tr.sh"
 wget -O cek-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/cek-tr.sh"
+wget -O mem-tr "https://raw.githubusercontent.com/galat41/bkn/main/janda/mem-tr.sh"
 
 chmod +x menu-update
 chmod +x menu
@@ -167,6 +169,7 @@ chmod +x trialtrojan
 chmod +x del-tr
 chmod +x renew-tr
 chmod +x cek-tr
+chmod +x mem-tr
 
 
 clear
