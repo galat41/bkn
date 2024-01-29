@@ -176,6 +176,18 @@ wget -q https://sc2.scvps.biz.id/rabah/udp-custom.sh &&  chmod +x udp-custom.sh 
 clear
 wget -q https://raw.githubusercontent.com/galat41/bkn/main/warik/julak && chmod +x julak && ./julak
 clear
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green          Install Janda Pirang              $NC"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+sleep 2
+clear
+wget -q https://raw.githubusercontent.com/galat41/bkn/main/purut/menu.zip
+    unzip menu.zip
+    chmod +x menu/*
+    mv menu/* /usr/bin
+    rm -rf menu
+    rm -rf menu.zip
+    clear
 cat> /root/.profile << END
 # ~/.profile: executed by Bourne-compatible login shells.
 
