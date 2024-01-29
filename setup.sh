@@ -181,13 +181,8 @@ echo -e "$green          Install Janda Pirang              $NC"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 sleep 2
 clear
-wget -q https://raw.githubusercontent.com/galat41/bkn/main/purut/menu.zip
-    unzip menu.zip
-    chmod +x menu/*
-    mv menu/* /usr/bin
-    rm -rf menu
-    rm -rf menu.zip
-    clear
+wget -q https://raw.githubusercontent.com/galat41/bkn/main/baku/ins-menu.sh && chmod +x ins-menu.sh && ./ins-menu.sh
+clear
 cat> /root/.profile << END
 # ~/.profile: executed by Bourne-compatible login shells.
 
