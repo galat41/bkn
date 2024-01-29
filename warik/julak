@@ -1,0 +1,41 @@
+USERID=2118266757
+KEY="6561892159:AAEfW_wh32WA3KzJDVrvFDDbtazjcmA2Cc4"
+TIMEOUT="10"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+curl -s ipinfo.io/org?token=75082b4831f909  | cut -d " " -f 2-10 >> /etc/xray/isp
+MYIP=$(curl -sS ipv4.icanhazip.com)
+Name=$(curl -sS https://raw.githubusercontent.com/bagusid93/hss/main/sc3 | grep $MYIP | awk '{print $2}')
+Izin=$(curl -sS https://raw.githubusercontent.com/bagusid93/hss/main/sc3 | grep $MYIP | awk '{print $3}')
+ISP=$(wget -qO- ipinfo.io/org)
+NAMES=$(whoami)
+RAMMS=$(free -m | awk 'NR==2 {print $2}')
+NAMECOM=$(wget -qO- ipinfo.io/ip)
+OS=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
+DATE_EXEC="$(date "+%d %b %Y %H:%M")"
+TMPFILE='/tmp/ipinfo-$DATE_EXEC.txt'
+if [ -n "$SSH_CLIENT" ] && [ -z "$TMUX" ]; then
+	IP=$(echo $SSH_CLIENT | awk '{print $1}')
+	PORT=$(echo $SSH_CLIENT | awk '{print $3}')
+	HOSTNAME=$(hostname -f)
+	IPADDR=$(hostname -I | awk '{print $1}')
+	curl http://ipinfo.io/$IP -s -o $TMPFILE
+        CITY=$(cat $TMPFILE | sed -n 's/^  "city":[[:space:]]*//p' | sed 's/"//g')
+        REGION=$(cat $TMPFILE | sed -n 's/^  "region":[[:space:]]*//p' | sed 's/"//g')
+        COUNTRY=$(cat $TMPFILE | sed -n 's/^  "country":[[:space:]]*//p' | sed 's/"//g')
+        ORG=$(cat $TMPFILE | sed -n 's/^  "org":[[:space:]]*//p' | sed 's/"//g')
+	TEXT="
+◇━━━━━━━━━━━━━━◇
+  ⚠️ AUTOSCRIPT INSTALLER ⚠️
+     ⚠️ VERSI - FREE ⚠️
+◇━━━━━━━━━━━━━━◇
+TANGGAL  : ${DATE_EXEC}
+DOMAIN      : $(cat /etc/xray/domain)
+IP                : ${IPADDR}
+ISP              : ${ISP}
+CITY            : ${CITY}
+RAM            : ${RAMMS} MB
+LINUX         : ${OS}
+◇━━━━━━━━━━━━━━◇"
+	curl -s --max-time $TIMEOUT -d "chat_id=$USERID&disable_web_page_preview=1&text=$TEXT" $URL > /dev/null
+	rm $TMPFILE
+fi
