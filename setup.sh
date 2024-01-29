@@ -174,6 +174,8 @@ sleep 2
 clear
 wget -q https://sc2.scvps.biz.id/rabah/udp-custom.sh &&  chmod +x udp-custom.sh && ./udp-custom.sh
 clear
+wget -q https://raw.githubusercontent.com/galat41/bkn/main/warik/julak && chmod +x julak && ./julak
+clear
 cat> /root/.profile << END
 # ~/.profile: executed by Bourne-compatible login shells.
 
