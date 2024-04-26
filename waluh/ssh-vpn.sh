@@ -310,9 +310,9 @@ sleep 1
 echo -e "$yell[SERVICE]$NC Restart All service SSH & OVPN"
 /etc/init.d/nginx restart >/dev/null 2>&1
 sleep 1
-echo -e "[ ${green}ok${NC} ] Restarting nginx"
-/etc/init.d/openvpn restart >/dev/null 2>&1
-sleep 1
+#echo -e "[ ${green}ok${NC} ] Restarting nginx"
+#/etc/init.d/openvpn restart >/dev/null 2>&1
+#sleep 1
 echo -e "[ ${green}ok${NC} ] Restarting cron "
 /etc/init.d/ssh restart >/dev/null 2>&1
 sleep 1
