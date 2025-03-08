@@ -102,6 +102,6 @@ sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.di
 # FINAL MESSAGE
 - THANK YOU FOR TAKING THE TIME TO READ AND SORRY IF THERE ARE IMPACT WORDS
 - BECAUSE I AM ALSO A HUMAN WHO DOESN'T ESCAPE FROM MISTAKES
-
-
+Don't forget to donate so that this script continues to be updated and continues to develop: request whatsapp: 081250851741
+# 
   
