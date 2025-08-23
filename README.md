@@ -17,8 +17,8 @@
 <br>
 - If you install the Script twice, you need to rebuild the VPS to factory settings, in the VPS provider panel<br>
 - DOMAIN (MUST)<br>
-- DEBIAN 9/10<br>
-- Ubuntu 18/20 LTS<br>
+- DEBIAN 9/10+<br>
+- Ubuntu 18/20+<br>
 - CPU MIN 1 CORE<br>
 - RAM 1GB<br>
 - (Recommendation) Ubuntu 20 LTS (STABLE to use)
