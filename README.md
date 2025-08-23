@@ -65,11 +65,15 @@
 - Speedtest® by [Ookla®](https://speedtest.net)
 - Set Auto Reboot
 - Restart All Service
-- AUTO delete user Expired 
+- AUTO delete user Expired
+- Auto Backup
 - Check Bandwith
 - BBRPLUS version 1.4.0 by [Chikage0o0](https://github.com/Chikage0o0) What is BBR [Search now BBR](https://www.google.com/search?q=what+bbr+in+linux)
 - DNS CHANGER
-- Backup & Restore? Next Update
+- Backup & Restore
+- Limit Login IP/QUOTA (Next update)
+- Auto pointing willcard domain (Next update)
+- 
 
   
 # Menu
