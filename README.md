@@ -1,3 +1,5 @@
+### Julak Bantur Autoscript Tunneling ###
+
 # Old version of Autoscript
 # No need for IP permission to install this Autoscript (Free Version)
 
@@ -47,6 +49,7 @@
 - Dropbear                 : 109, 143<br>
 - Badvpn                   : 7100-7900<br>
 - Nginx                    : 81<br>
+- Udp Custom.              : 1-65535<br>
 - Vmess WS TLS             : 443<br>
 - Vless WS TLS             : 443<br>
 - Trojan WS TLS            : 443<br>
