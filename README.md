@@ -94,7 +94,7 @@ sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.di
 
 # Telegram
 [![Telegram-chat](https://img.shields.io/badge/Chat-Telegram-blue)](https://t.me/Cibut2d/)
-[![Telegram-Channel](https://img.shields.io/badge/Channel-Telegram-blue)](https://t.me/ppn_store/)
+[![Telegram-Channel](https://img.shields.io/badge/Channel-Telegram-blue)](https://t.me/rajaganjil93/)
 
 # Donate
 [![QRIS donate button](https://img.shields.io/badge/Donate-QRIS-red)](https://raw.githubusercontent.com/galat41/bkn/main/warik/qris.png)
@@ -109,6 +109,6 @@ sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.di
 # FINAL MESSAGE
 - THANK YOU FOR TAKING THE TIME TO READ AND SORRY IF THERE ARE IMPACT WORDS
 - BECAUSE I AM ALSO A HUMAN WHO DOESN'T ESCAPE FROM MISTAKES
-Don't forget to donate so that this script continues to be updated and continues to develop: request whatsapp: 081250851741
+Don't forget to donate so that this script continues to be updated and continues to develop: request whatsapp: https://wa.me/+6281250851741
 # 
   
