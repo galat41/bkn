@@ -1,8 +1,10 @@
 #!/bin/bash
-#
+# Script Installer Tunnel
+# Author : Julak Bantur
+# Update ©2025
 # ==================================================
 
-# initializing var
+# --- initializing var --- #
 export DEBIAN_FRONTEND=noninteractive
 MYIP=$(wget -qO- ipinfo.io/ip);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
@@ -10,23 +12,23 @@ NET=$(ip -o $ANU -4 route show to default | awk '{print $5}');
 source /etc/os-release
 ver=$VERSION_ID
 
-#detail nama perusahaan
+# --- Detail perusahaan --- #
 country=ID
 state=Indonesia
-locality=none
-organization=none
+locality=Kalimantan
+organization=Orangbanua
 organizationalunit=none
-commonname=none
+commonname=JulakVpn
 email=admin@ppnstore.xyz
 
-# simple password minimal
+# --- Password Sederhana --- #
 curl -sS https://raw.githubusercontent.com/galat41/bkn/main/waluh/password | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/pam.d/common-password
 chmod +x /etc/pam.d/common-password
 
-# go to root
+# --- Kembali Ke Halaman Root --- #
 cd
 
-# Edit file /etc/systemd/system/rc-local.service
+# --- Edit file /etc/systemd/system/rc-local.service --- #
 cat > /etc/systemd/system/rc-local.service <<-END
 [Unit]
 Description=/etc/rc.local
@@ -42,7 +44,6 @@ SysVStartPriority=99
 WantedBy=multi-user.target
 END
 
-# nano /etc/rc.local
 cat > /etc/rc.local <<-END
 #!/bin/sh -e
 # rc.local
@@ -50,45 +51,45 @@ cat > /etc/rc.local <<-END
 exit 0
 END
 
-# Ubah izin akses
+# --- Ubah izin akses --- #
 chmod +x /etc/rc.local
 
-# enable rc local
+# --- enable rc local --- #
 systemctl enable rc-local
 systemctl start rc-local.service
 
-# disable ipv6
+# --- disable ipv6 --- #
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
-#update
+# --- update dan upgrade --- #
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
 apt-get remove --purge ufw firewalld -y
 apt-get remove --purge exim4 -y
 
-#install jq
+# --- Menginstall jq --- #
 apt -y install jq
 
-#install shc
+# --- install shc --- #
 apt -y install shc
 
-# install wget and curl
+# --- install wget Dan curl --- w
 apt -y install wget curl
 
-#figlet
+# --- Install figlet --- #
 apt-get install figlet -y
 apt-get install ruby -y
 gem install lolcat
 
-# set time GMT +7
+# --- Set Zona Waktu GMT +7 --- #
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
-# set locale
+# --- set locale --- #
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
-
+# --- Install SSL --- #
 install_ssl(){
     if [ -f "/usr/bin/apt-get" ];then
             isDebian=`cat /etc/issue|grep Debian`
@@ -123,7 +124,7 @@ install_ssl(){
     fi
 }
 
-# install webserver
+# --- install Server Web --- #
 apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
@@ -132,7 +133,7 @@ wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/galat41/bkn/mai
 mkdir -p /home/vps/public_html
 /etc/init.d/nginx restart
 
-# install badvpn
+# --- install badvpn Udpgw --- #
 cd
 wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/galat41/bkn/main/waluh/newudpgw"
 chmod +x /usr/bin/badvpn-udpgw
@@ -149,7 +150,7 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7700 --max-clients 500
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7800 --max-clients 500
 screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 500
 
-# setting port ssh
+# --- setting port openssh --- #
 cd
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
@@ -159,9 +160,8 @@ sed -i '/Port 22/a Port 58080' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 200' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 22' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
-
+# --- install dropbear --- #
 echo "=== Install Dropbear ==="
-# install dropbear
 apt -y install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=143/g' /etc/default/dropbear
@@ -171,8 +171,8 @@ echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/ssh restart
 /etc/init.d/dropbear restart
 
+# --- Setting Stunnel4 --- #
 cd
-# install stunnel
 apt install stunnel4 -y
 cat > /etc/stunnel/stunnel.conf <<-END
 cert = /etc/stunnel/stunnel.pem
@@ -199,21 +199,21 @@ connect = 127.0.0.1:1194
 
 END
 
-# make a certificate
+# --- make a certificate --- #
 openssl genrsa -out key.pem 2048
 openssl req -new -x509 -key key.pem -out cert.pem -days 1095 \
 -subj "/C=$country/ST=$state/L=$locality/O=$organization/OU=$organizationalunit/CN=$commonname/emailAddress=$email"
 cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
 
-# konfigurasi stunnel
+# --- konfigurasi stunnel --- #
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
 
-# install fail2ban
+# --- install fail2ban --- #
 apt -y install fail2ban
 
-# Instal DDOS Flate
+# --- Instal DDOS --- #
 if [ -d '/usr/local/ddos' ]; then
 	echo; echo; echo "Please un-install the previous version first"
 	exit 0
@@ -240,7 +240,7 @@ echo; echo 'Installation has completed.'
 echo 'Config file is at /usr/local/ddos/ddos.conf'
 echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
 
-# banner /etc/issue.net
+# --- Tambahkan banner ssh --- #
 sleep 1
 echo -e "[ ${green}INFO$NC ] Settings banner"
 wget -q -O /etc/issue.net "https://raw.githubusercontent.com/galat41/bkn/main/issue.net"
@@ -248,10 +248,10 @@ chmod +x /etc/issue.net
 echo "Banner /etc/issue.net" >> /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
-#install bbr dan optimasi kernel
+# --- install bbr dan optimasi kernel --- #
 wget https://raw.githubusercontent.com/galat41/bkn/main/waluh/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 
-# blockir torrent
+# --- blockir torrent --- #
 iptables -A FORWARD -m string --string "get_peers" --algo bm -j DROP
 iptables -A FORWARD -m string --string "announce_peer" --algo bm -j DROP
 iptables -A FORWARD -m string --string "find_node" --algo bm -j DROP
@@ -268,8 +268,10 @@ iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
 netfilter-persistent reload
 
+# --- Kembali Ke Root --- #
 cd
 
+# --- Tambahkan cron untuk reboot otomatis dll --- #
 cat > /etc/cron.d/re_otm <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -289,7 +291,7 @@ END
 service cron restart >/dev/null 2>&1
 service cron reload >/dev/null 2>&1
 
-# remove unnecessary files
+# --- remove unnecessary files --- #
 sleep 1
 echo -e "[ ${green}INFO$NC ] Clearing trash"
 apt autoclean -y >/dev/null 2>&1
@@ -303,16 +305,15 @@ apt-get -y --purge remove apache2* >/dev/null 2>&1
 apt-get -y --purge remove bind9* >/dev/null 2>&1
 apt-get -y remove sendmail* >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
-# finishing
+
+# --- Tahap Akhir --- #
+# --- Restart Semua Layanan yang sudah di install --- #
 cd
 chown -R www-data:www-data /home/vps/public_html
 sleep 1
 echo -e "$yell[SERVICE]$NC Restart All service SSH & OVPN"
 /etc/init.d/nginx restart >/dev/null 2>&1
 sleep 1
-#echo -e "[ ${green}ok${NC} ] Restarting nginx"
-#/etc/init.d/openvpn restart >/dev/null 2>&1
-#sleep 1
 echo -e "[ ${green}ok${NC} ] Restarting cron "
 /etc/init.d/ssh restart >/dev/null 2>&1
 sleep 1
@@ -343,11 +344,11 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7900 --max-clients 500
 history -c
 echo "unset HISTFILE" >> /etc/profile
 
-
+# --- Hapus File install dari directory root --- #
 rm -f /root/key.pem
 rm -f /root/cert.pem
 rm -f /root/ssh-vpn.sh
 rm -f /root/bbr.sh
 
-# finihsing
+# --- Hapus Baris Installasi --- #
 clear
