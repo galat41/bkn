@@ -1,5 +1,5 @@
 [Unit]
-Description=SSH Over Websocket Python Papada'an Store
+Description=SSH Websocket Stunnel by Julak Bantur
 Documentation=https://google.com
 After=network.target nss-lookup.target
 
