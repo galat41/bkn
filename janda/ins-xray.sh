@@ -1,11 +1,26 @@
 #!/bin/bash
-echo -e "
-"
-date
+# Installer Xray Versi Santai
+# Author : Julak Bantur
+# Update ©2025
+# ==========================================
+# --- Backup Warna --- #
+red='\e[1;31m'
+green='\e[0;32m'
+yell='\e[1;33m'
+tyblue='\e[1;36m'
+NC='\e[0m'
+purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
+tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
+yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+
+# --- Langkah Awal --- #
 echo ""
-domain=$(cat /root/domain)
+domain=$(cat /etc/xray/domain)
 sleep 1
-mkdir -p /etc/xray 
+
+# --- Install bahan-bahan yang tidak terlalu berguna --- #
 echo -e "[ ${green}INFO${NC} ] Checking... "
 apt install iptables iptables-persistent -y
 sleep 1
@@ -35,12 +50,12 @@ apt install zip -y
 apt install curl pwgen openssl netcat cron -y
 
 
-# install xray
+# --- install xray core --- #
 sleep 1
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
-# Make Folder XRay
+# --- Buat kembali directory xray memastikan Folder yang dibutuhkan sudah ada --- #
 mkdir -p /var/log/xray
 mkdir -p /etc/xray
 chown www-data.www-data /var/log/xray
@@ -49,12 +64,11 @@ touch /var/log/xray/access.log
 touch /var/log/xray/error.log
 touch /var/log/xray/access2.log
 touch /var/log/xray/error2.log
-# / / Ambil Xray Core Version Terbaru
+
+# --- Ambil Xray Core Version Terbaru --- #
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
 
-
-
-## crt xray
+# --- Cert xray --- #
 systemctl stop nginx
 mkdir /root/.acme.sh
 curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
@@ -64,7 +78,7 @@ chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
-# nginx renew ssl
+# --- Renew SSL nginx --- #
 echo -n '#!/bin/bash
 /etc/init.d/nginx stop
 "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
@@ -74,11 +88,10 @@ echo -n '#!/bin/bash
 chmod +x /usr/local/bin/ssl_renew.sh
 if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo "15 03 */3 * * /usr/local/bin/ssl_renew.sh") | crontab;fi
 
-mkdir -p /home/vps/public_html
-
-# set uuid
+# --- set random uuid --- #
 uuid=$(cat /proc/sys/kernel/random/uuid)
-# xray config
+
+# --- Menambahakn config.json untuk xray --- #
 cat > /etc/xray/config.json << END
 {
   "log" : {
@@ -332,6 +345,8 @@ cat > /etc/xray/config.json << END
   }
 }
 END
+
+# --- Menambahkan xray service dengan systemd --- #
 rm -rf /etc/systemd/system/xray.service.d
 rm -rf /etc/systemd/system/xray@.service
 cat <<EOF> /etc/systemd/system/xray.service
@@ -369,7 +384,7 @@ Restart=on-abort
 WantedBy=multi-user.target
 EOF
 
-# Install Trojan Go
+# --- Install Trojan Go --- #
 latest_version="$(curl -s "https://api.github.com/repos/p4gefau1t/trojan-go/releases" | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
 trojango_link="https://github.com/p4gefau1t/trojan-go/releases/download/v${latest_version}/trojan-go-linux-amd64.zip"
 mkdir -p "/usr/bin/trojan-go"
@@ -383,7 +398,7 @@ mkdir /var/log/trojan-go/
 touch /etc/trojan-go/akun.conf
 touch /var/log/trojan-go/trojan-go.log
 
-# Buat Config Trojan Go
+# --- Buat Config.json untuk Trojan Go --- #
 cat > /etc/trojan-go/config.json << END
 {
   "run_type": "server",
@@ -448,7 +463,7 @@ cat > /etc/trojan-go/config.json << END
 }
 END
 
-# Installing Trojan Go Service
+# --- Tambahkan service untuk Trojan Go --- #
 cat > /etc/systemd/system/trojan-go.service << END
 [Unit]
 Description=Trojan-Go Service Mod By ADAM SIJA
@@ -468,12 +483,12 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 END
 
-# Trojan Go Uuid
+# --- Trojan Go Uuid --- #
 cat > /etc/trojan-go/uuid.txt << END
 $uuid
 END
 
-#nginx config
+# --- nginx config xray sederhana non multipath --- #
 cat >/etc/nginx/conf.d/xray.conf <<EOF
     server {
              listen 80;
@@ -587,7 +602,7 @@ sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_pass grpc://127.0.0.1:33456;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
-
+# --- Restart Semua Layanan yang baru di tambahkan --- #
 echo -e "$yell[SERVICE]$NC Restart All service"
 systemctl daemon-reload
 sleep 1
@@ -604,9 +619,12 @@ yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
 yellow "xray/Vless"
 
+# --- memindahkan domain dari halaman utama ke folder /etc/xray --- #
 mv /root/domain /etc/xray/ 
 if [ -f /root/scdomain ];then
 rm /root/scdomain > /dev/null 2>&1
 fi
 clear
+
+# --- Hapus File install dari Halaman root --- #
 rm -f ins-xray.sh  
