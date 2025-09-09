@@ -83,8 +83,6 @@
 # Service Status
 ![Service Status](https://raw.githubusercontent.com/galat41/bkn/main/warik/service.jpg)
 
-# [Step Install]
-
 # Untuk Pengguna vps dengan OS Terbaru
 - Untuk yang OS nya versi baru sebaiknya rebuild dulu ke OS Ubuntu 20.04 atau debian 10
 - Link Untuk rebuid vps ke OS ubuntu 20.04
@@ -93,6 +91,10 @@ curl -O https://raw.githubusercontent.com/galat41/bkn/main/install-ulang.sh
 chmod +x install-ulang.sh
 bash install-ulang.sh ubuntu 20.04 --password PASSWORD_KAMU
 ```
+- Setelah selesai buid lalu reboot dulu dan tunggu 5 sampai 10 menit sampai terisntall Os versi lama baru lanjut ke langkah instalasi autoscript
+
+
+# [Step Install]
 
 - Step 1 for (debian) please update first
 ```
