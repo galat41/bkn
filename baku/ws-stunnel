@@ -13,8 +13,7 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:69'
-RESPONSE = 'HTTP/1.1 101 <font color="green"><b>JULAK BANTUR</font></b>\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: yes\r\n\r\n'
-#RESPONSE = 'HTTP/1.1 200 okee!\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 Connection established\r\n\r\n'  # lint:ok
+RESPONSE = 'HTTP/1.1 101 <font color="green"><b>Autoscript by Julak Bantur</font></b>\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: yes\r\n\r\n'
 
 class Server(threading.Thread):
     def __init__(self, host, port):
