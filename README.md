@@ -97,9 +97,9 @@ bash install-ulang.sh ubuntu 20.04 --password PASSWORD_KAMU
 
 # [Step Install]
 
-- Step 1 for (debian) please update first
+- Step 1 please update first
 ```
-apt update && apt upgrade -y && reboot
+apt update && apt upgrade -y && apt install wget -y && reboot
 ```
 - Step 2 for (ubuntu) directly install
 ```
