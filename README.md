@@ -1,4 +1,5 @@
 ### Julak Bantur Autoscript Tunneling ###
+# Harap baca sampai selesai sebelum install
 
 # Old version of Autoscript
 # No need for IP permission to install this Autoscript (Free Version)
