@@ -1,91 +1,110 @@
-#!/bin/bash
-set -eo pipefail
+#!/usr/bin/env bash
+# tools.sh — upgraded & cleaned
+# Author: upgraded by bro 🤝
 
-# Color definitions
-RED='\e[1;31m'
-GREEN='\e[1;32m'
-YELLOW='\e[1;33m'
-NC='\e[0m'
+set -e
 
-# Output functions
-error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
-success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
-warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
-progress() { echo -e "${YELLOW}[PROGRESS]${NC} $1"; }
-
-# Initialize system
 clear
-progress "Starting system configuration..."
+
+# ===== Colors =====
+RED='\033[31;1m'
+GREEN='\033[32;1m'
+YELLOW='\033[33;1m'
+NC='\033[0m'
+
+green()  { echo -e "${GREEN}$*${NC}"; }
+red()    { echo -e "${RED}$*${NC}"; }
+yellow() { echo -e "${YELLOW}$*${NC}"; }
+
+# ===== Root Check =====
+if [[ $EUID -ne 0 ]]; then
+  red "Please run as root!"
+  exit 1
+fi
+
+# ===== OS Detection =====
+if [[ -e /etc/os-release ]]; then
+  source /etc/os-release
+  OS=$ID
+else
+  red "Cannot detect OS!"
+  exit 1
+fi
+
+if [[ "$OS" != "debian" && "$OS" != "ubuntu" ]]; then
+  red "This script only supports Debian/Ubuntu"
+  exit 1
+fi
+
+green "Detected OS: $OS"
+sleep 1
+
+# ===== Network Interface =====
+NET=$(ip -o -4 route show to default | awk '{print $5}')
+if [[ -z "$NET" ]]; then
+  red "Network interface not found!"
+  exit 1
+fi
+green "Using network interface: $NET"
+
+# ===== Update System =====
+yellow "Updating system..."
+apt update -y
+apt dist-upgrade -y
+
+# ===== Remove Unused Services =====
+yellow "Removing unnecessary services..."
+apt purge -y ufw firewalld exim4 || true
+
+# ===== Base Packages =====
+yellow "Installing base packages..."
+apt install -y \
+  screen curl jq bzip2 gzip coreutils rsyslog iftop htop \
+  zip unzip net-tools sed bc sudo build-essential dirmngr \
+  libxml-parser-perl neofetch screenfetch git lsof \
+  openssl openvpn easy-rsa fail2ban tmux \
+  stunnel4 vnstat squid dropbear \
+  libsqlite3-dev socat cron bash-completion ntpdate \
+  xz-utils dnsutils lsb-release chrony \
+  apt-transport-https ca-certificates gnupg gnupg2
+
+# ===== NodeJS =====
+yellow "Installing NodeJS 16..."
+curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+apt install -y nodejs
+
+# ===== vnStat Upgrade =====
+yellow "Upgrading vnStat..."
+systemctl stop vnstat || true
+
+cd /tmp
+wget -q https://humdi.net/vnstat/vnstat-2.6.tar.gz
+tar xzf vnstat-2.6.tar.gz
+cd vnstat-2.6
+
+./configure --prefix=/usr --sysconfdir=/etc >/dev/null
+make -j$(nproc) >/dev/null
+make install >/dev/null
+
+vnstat -u -i "$NET"
+sed -i "s/^Interface.*/Interface \"$NET\"/" /etc/vnstat.conf
+
+chown -R vnstat:vnstat /var/lib/vnstat
+systemctl enable vnstat
+systemctl restart vnstat
+
+rm -rf /tmp/vnstat-2.6*
+
+# ===== VPN / PPP Dependencies =====
+yellow "Installing VPN & PPP dependencies..."
+apt install -y \
+  libnss3-dev libnspr4-dev pkg-config libpam0g-dev \
+  libcap-ng-dev libcap-ng-utils libselinux1-dev \
+  libcurl4-nss-dev flex bison make \
+  libnss3-tools libevent-dev xl2tpd pptpd
+
+green "All dependencies successfully installed 🚀"
 sleep 2
+clear
 
-# Detect OS and network interface
-detect_os() {
-    if [[ -e /etc/debian_version ]]; then
-        source /etc/os-release
-        OS="$ID"
-    elif [[ -e /etc/centos-release ]]; then
-        OS="centos"
-    else
-        error "Unsupported operating system"
-        exit 1
-    fi
-    export NET=$(ip route get 1.1.1.1 | awk '{print $5}' | head -1)
-}
-
-# System preparation
-prepare_system() {
-    progress "Updating system packages..."
-    apt-get update -qq
-    apt-get full-upgrade -y -qq
-    
-    progress "Removing conflicting packages..."
-    apt-get purge -y -qq ufw firewalld exim4
-}
-
-# Package installation
-install_dependencies() {
-    progress "Installing core dependencies..."
-    apt-get install -y -qq \
-        sudo python3 screen curl jq git lsof \
-        build-essential libpam0g-dev libcurl4-nss-dev \
-        openssl openvpn easy-rsa fail2ban tmux \
-        stunnel4 squid dropbear socat chrony \
-        net-tools dnsutils lsb-release neofetch \
-        libnss3-dev libnspr4-dev libsqlite3-dev \
-        xl2tpd pptpd vnstat
-}
-
-# Configure vnstat
-configure_vnstat() {
-    progress "Configuring network monitoring..."
-    if ! command -v vnstat &>/dev/null; then
-        warning "Installing vnstat from source..."
-        wget -q https://humdi.net/vnstat/vnstat-2.6.tar.gz
-        tar zxf vnstat-2.6.tar.gz
-        pushd vnstat-2.6 >/dev/null
-        ./configure --prefix=/usr --sysconfdir=/etc >/dev/null
-        make >/dev/null && make install >/dev/null
-        popd >/dev/null
-        rm -rf vnstat-2.6*
-    fi
-
-    sed -i "s/Interface \"eth0\"/Interface \"${NET}\"/g" /etc/vnstat.conf
-    chown -R vnstat:vnstat /var/lib/vnstat
-    systemctl enable vnstat
-    systemctl restart vnstat
-}
-
-# Main execution flow
-main() {
-    detect_os
-    prepare_system
-    install_dependencies
-    configure_vnstat
-
-    success "All dependencies successfully installed!"
-    progress "Cleaning up..."
-    apt-get autoremove -y -qq
-    apt-get clean -y
-    sleep 3
-    clear
-}
+neofetch || true
